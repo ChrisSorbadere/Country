@@ -142,6 +142,50 @@ button.ghost{background:transparent}
 .ind .ib>i{display:block;height:100%}
 .ind .iv{width:34px;text-align:right;font-family:var(--mono);font-size:12px;color:#2c2822}
 .recap .note{margin-top:12px;font-size:12.5px;color:#4a443a;line-height:1.5;border-top:1px dotted #cdbfa4;padding-top:12px}
+/* ---- simulation ---- */
+.dash{background:var(--paper);color:var(--ink);border:1px solid #cdbfa4;border-radius:8px;padding:14px 16px;margin-bottom:14px}
+.dash .drow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;border-bottom:1.5px double #c3b393;padding-bottom:8px}
+.dash .date{font-family:var(--serif);font-size:17px;font-weight:600;color:#231f1a}
+.dash .treas{font-family:var(--mono);font-size:15px;color:#231f1a}
+.dash .treas.neg{color:var(--red)}
+.dash .pop{font-family:var(--mono);font-size:10.5px;color:var(--ink2);text-align:right}
+.budget label{display:block;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#8b98a6;margin:0 0 6px}
+.taxrow{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.taxrow input[type=range]{flex:1;accent-color:var(--red)}
+.taxval{font-family:var(--mono);font-size:14px;color:#eef2f6;width:44px;text-align:right}
+.spendgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.spendgrid{grid-template-columns:1fr}}
+.spost .pn{font-size:12.5px;color:#cbd4de;margin-bottom:5px;display:flex;justify-content:space-between}
+.spost .pn span{color:#8b98a6;font-family:var(--mono);font-size:10px}
+.lvls{display:flex;gap:5px}
+.lvls button{flex:1;padding:7px 0;font-size:12px}
+.lvls button.sel{background:var(--teal);border-color:var(--teal);color:#fff}
+.proj{margin-top:14px;font-family:var(--mono);font-size:12px;color:#9aa7b4;text-align:center;border-top:1px solid var(--line);padding-top:12px}
+.proj b.pos{color:#7fc9a0}.proj b.neg{color:#d98a82}
+.decision{background:var(--paper);color:var(--ink);border:1px solid #cdbfa4;border-radius:8px;overflow:hidden;margin:14px 0}
+.decision .dh{padding:6px 16px;background:var(--red);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.decision .db{padding:16px 18px}
+.decision h3{margin:0 0 8px;font-family:var(--serif);font-size:19px;color:#231f1a;font-weight:600}
+.decision p{margin:0 0 16px;font-size:14px;line-height:1.55;color:#3a352d}
+.opts2{display:flex;flex-direction:column;gap:9px}
+.opts2 button{text-align:left;font-family:var(--serif);font-size:14.5px;background:#f6f1e6;color:#2a2622;border:1px solid #cdbfa4;padding:12px 14px;border-radius:6px}
+.opts2 button:hover{background:#fff;border-color:var(--red)}
+.journal{background:var(--shell2);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.journal h4{margin:0 0 8px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8b98a6}
+.jitem{font-size:12.5px;color:#a9b4c0;padding:6px 0;border-bottom:1px dotted var(--line);line-height:1.4}
+.jitem:last-child{border:0}.jitem b{color:var(--gold);font-family:var(--mono);font-size:10px;margin-right:6px}
+.overlay{position:fixed;inset:0;background:rgba(8,12,17,.88);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.overlay.show{display:flex}
+.endcard{background:var(--paper);color:var(--ink);border-radius:10px;max-width:440px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.endcard .eh{padding:22px 22px 16px;border-bottom:1.5px double #c3b393;background:linear-gradient(180deg,#f0e9da,#e7ddc9)}
+.endcard .eh .ek{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.endcard .eh .et{font-family:var(--serif);font-size:24px;font-weight:600;color:#231f1a;margin-top:4px}
+.endcard .eb{padding:18px 22px 22px}
+.endcard .em{font-size:14px;line-height:1.55;color:#3a352d;margin-bottom:14px}
+.endcard .score{font-family:var(--serif);font-size:15px;color:#231f1a;text-align:center;border-top:1px dotted #cdbfa4;border-bottom:1px dotted #cdbfa4;padding:12px 0;margin-bottom:16px}
+.endcard .score b{font-size:30px;display:block;color:var(--red)}
+.endbtns{display:flex;gap:10px}.endbtns button{flex:1}
+
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--paper);color:var(--ink);font-size:13.5px;padding:11px 18px;border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;font-weight:500;max-width:82vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .navrow{display:flex;justify-content:space-between;gap:10px;margin:6px 0 8px}
@@ -291,6 +335,61 @@ button.ghost{background:transparent}
       <p class="hint" style="text-align:center">Module III à venir : la simulation (climat, économie, crises, diplomatie).</p>
     </div>
   </section>
+
+  <!-- ============ SCREEN 3 : SIMULATION ============ -->
+  <section id="scrSim" class="screen">
+    <div class="found">
+      <div class="navrow">
+        <button class="ghost" id="btnSimMenu">☰ Menu</button>
+        <span class="hint" id="simCountry">—</span>
+      </div>
+      <div class="dash">
+        <div class="drow">
+          <span class="date" id="simDate">An 1 · Trimestre 1</span>
+          <span><span class="treas" id="simTreas">—</span><span class="pop" id="simPop"></span></span>
+        </div>
+        <div id="simGauges"></div>
+      </div>
+      <div class="step budget">
+        <h2><span class="no">$</span> Budget du trimestre</h2>
+        <p class="sub">Ajuste avant de trancher la décision. Chaque choix clôt le trimestre.</p>
+        <label>Pression fiscale</label>
+        <div class="taxrow">
+          <input type="range" id="taxSlider" min="8" max="40" step="1" value="20" aria-label="Taux d'imposition">
+          <span class="taxval" id="taxVal">20%</span>
+        </div>
+        <label>Dépenses publiques</label>
+        <div class="spendgrid" id="spendGrid"></div>
+        <div class="proj" id="proj">—</div>
+      </div>
+      <div class="decision" id="decision">
+        <div class="dh" id="decKicker">Conseil des ministres</div>
+        <div class="db">
+          <h3 id="decTitle">—</h3>
+          <p id="decText">—</p>
+          <div class="opts2" id="decOpts"></div>
+        </div>
+      </div>
+      <div class="journal">
+        <h4>Journal de gouvernement</h4>
+        <div id="simLog"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="overlay" id="overlay">
+    <div class="endcard">
+      <div class="eh"><div class="ek" id="endKick">—</div><div class="et" id="endTitle">—</div></div>
+      <div class="eb">
+        <div class="em" id="endMsg">—</div>
+        <div class="score" id="endScore">—</div>
+        <div class="endbtns">
+          <button id="endReplay">Rejouer cette île</button>
+          <button class="primary" id="endNew">Nouvelle île</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -593,7 +692,8 @@ function afterFoundChange(){
 /* ================= navigation ================= */
 function show(scr){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(scr).classList.add('active');
   if(scr==='scrTerritory'){$('phaseTag').textContent="Module I — Territoire";requestAnimationFrame(()=>draw(CUR,ANA));}
-  else{$('phaseTag').textContent="Module II — Fondation";}
+  else if(scr==='scrFound'){$('phaseTag').textContent="Module II — Fondation";}
+  else{$('phaseTag').textContent="Module III — Gouverner";}
   window.scrollTo(0,0);}
 $('btnNew').onclick=newIsland;
 $('btnRegionCycle').onclick=()=>{buildIsland(STATE.seed,(STATE.regionIdx+1)%REGIONS.length);toast("Région : "+REGIONS[STATE.regionIdx].name);};
@@ -605,12 +705,275 @@ $('btnToFound').onclick=()=>{if(!(STATE.name||$('nameInput').value.trim())){toas
   if(!STATE.capital&&ANA)STATE.capital="";renderFoundation();show('scrFound');};
 $('btnBack').onclick=()=>show('scrTerritory');
 $('btnFlagRandom').onclick=randomFlag;
-$('btnProclaim').onclick=()=>{if(!STATE.name){toast("Il manque le nom du pays.");return;}save();toast("« "+STATE.name+" » est proclamée. Le Module III (simulation) arrive.");};
+$('btnProclaim').onclick=()=>{if(!STATE.name){toast("Il manque le nom du pays.");return;}save();startSim();};
+
+/* ============ MOTEUR DE SIMULATION (Module III) ============ */
+const clampI=v=>Math.max(0,Math.min(100,v));
+const REGIME_RULES={
+  parlement:{elective:true,term:20,revoltFloor:12,tag:"l'assemblée"},
+  presidentiel:{elective:true,term:16,revoltFloor:10,tag:"le président"},
+  monarchie:{elective:true,term:24,revoltFloor:8,tag:"le gouvernement"},
+  autoritaire:{elective:false,term:0,revoltFloor:22,tag:"le régime"},
+  technocratie:{elective:false,term:0,revoltFloor:18,tag:"le conseil"},
+  confederation:{elective:true,term:20,revoltFloor:14,tag:"le congrès"}
+};
+const SPEND_COEF=0.9;          // coût par habitant / niveau / trimestre
+const REV_BASE=3.4;            // recette par habitant / trimestre à éco=50, tax=.20
+
+function newGame(found, ind, pop, region){
+  return {
+    turn:0, year:1, quarter:1,
+    ind:{eco:ind.eco,legit:ind.legit,cohesion:ind.cohesion,env:ind.env,secu:ind.secu},
+    treasury:Math.round(pop*(ind.tresor/100)*10),
+    tax:0.20, spend:{social:1,infra:1,secu:1,env:1},
+    pop, regime:found.regime, econ:found.econ,
+    region, deficitStreak:0, sinceElection:0, log:[], over:false, ending:null, flags:{}, pending:null
+  };
+}
+function revenue(g){ return Math.round(g.pop*REV_BASE*(g.ind.eco/50)*(g.tax/0.20)); }
+function spending(g){ const s=g.spend; return Math.round(g.pop*SPEND_COEF*(s.social+s.infra+s.secu+s.env)); }
+
+/* effets de fond appliqués à chaque résolution de trimestre */
+function background(g){
+  const d={eco:0,legit:0,cohesion:0,env:0,secu:0};
+  const s=g.spend;
+  // dépenses -> indicateurs (niveau 1 = neutre, 0 = dégrade, 2 = améliore)
+  d.cohesion += (s.social-1)*3;  d.legit += (s.social-1)*1.5;
+  d.eco      += (s.infra-1)*3;
+  d.secu     += (s.secu-1)*3;
+  d.env      += (s.env-1)*3;
+  // fiscalité
+  const taxDev=(g.tax-0.20);
+  d.eco   -= taxDev*24;          // impôts hauts freinent l'éco
+  d.legit -= taxDev*30;          // ...et mécontentent
+  // orientation économique : pression environnementale
+  if(g.econ==='industrie') d.env-=2.5;
+  if(g.econ==='tourisme')  d.env-=1;
+  if(g.econ==='agricole')  d.env+=1;
+  // environnement dégradé : pêche/agriculture/tourisme s'effondrent, colère monte
+  if(g.ind.env<25){const p=25-g.ind.env; d.eco-=p*0.12; d.cohesion-=p*0.14; d.legit-=p*0.08;}
+  // dérives douces vers la moyenne
+  d.legit    += (50-g.ind.legit)*0.04;
+  d.cohesion += (55-g.ind.cohesion)*0.03;
+  // environnement bas -> aléas climatiques plus durs (géré au tirage d'événement)
+  // croissance éco si stable
+  if(g.ind.secu>45 && g.ind.legit>40) d.eco+=1;
+  return d;
+}
+
+/* ============ BANQUE D'ÉVÉNEMENTS ============ */
+const EVENTS=[
+ {id:'harvest',cat:'eco',w:3,cond:g=>true,title:"Récoltes exceptionnelles",text:"Une saison clémente gonfle la production agricole. Les greniers débordent.",
+  opt:[{l:"Exporter le surplus",fx:{treasuryPct:0.08,eco:4,env:-2},r:"Les exportations remplissent les caisses."},
+       {l:"Constituer des réserves",fx:{cohesion:4,legit:2},r:"La population salue la prudence."}]},
+ {id:'strike',cat:'social',w:3,cond:g=>g.ind.cohesion<55,title:"Grève dans les ports",text:"Les dockers réclament de meilleurs salaires et bloquent les quais.",
+  opt:[{l:"Céder aux revendications",fx:{treasuryPct:-0.05,cohesion:6,eco:-2},r:"L'accord ramène le calme, mais coûte cher."},
+       {l:"Envoyer la police",fx:{cohesion:-8,secu:3,legit:-4},r:"Les quais rouvrent sous tension."},
+       {l:"Négocier un compromis",fx:{cohesion:2,legit:2,treasuryPct:-0.02},r:"Un accord partiel apaise sans tout résoudre."}]},
+ {id:'foreigninvest',cat:'eco',w:2,cond:g=>g.ind.eco>40,title:"Offre d'investissement étranger",text:"Un conglomérat propose d'implanter une usine, contre des avantages fiscaux.",
+  opt:[{l:"Accepter l'usine",fx:{eco:8,treasuryPct:0.06,env:-6,cohesion:-2},r:"L'emploi grimpe, l'écologie trinque."},
+       {l:"Refuser",fx:{env:2,legit:2},r:"Vous préservez votre souveraineté et vos côtes."}]},
+ {id:'epidemic',cat:'social',w:2,cond:g=>true,title:"Flambée épidémique",text:"Un virus se propage. Les hôpitaux saturent.",
+  opt:[{l:"Confinement strict",fx:{eco:-8,cohesion:-4,legit:-2,secu:2},r:"L'épidémie recule, l'économie souffre."},
+       {l:"Investir d'urgence en santé",fx:{treasuryPct:-0.12,cohesion:6,legit:4},r:"Une réponse coûteuse mais saluée."},
+       {l:"Laisser faire",fx:{cohesion:-10,legit:-8,eco:-3},r:"La crise sanitaire échappe à tout contrôle."}]},
+ {id:'corruption',cat:'pol',w:2,cond:g=>g.ind.legit<60,title:"Scandale de corruption",text:"Un ministre est accusé de détournement de fonds publics.",
+  opt:[{l:"Le limoger publiquement",fx:{legit:6,cohesion:2,secu:-1},r:"La fermeté restaure un peu de confiance."},
+       {l:"Étouffer l'affaire",fx:{legit:-10,secu:2},r:"La presse finit par flairer quelque chose."}]},
+ {id:'border',cat:'ext',w:2,cond:g=>true,title:"Tension avec un voisin",text:g=>"Un différend maritime éclate avec "+g.region.neigh[0]+" sur les zones de pêche.",
+  opt:[{l:"Fermeté diplomatique",fx:{secu:4,legit:3,eco:-3},r:"Vous tenez bon ; les relations se crispent."},
+       {l:"Chercher un accord",fx:{eco:3,legit:-1,secu:-2},r:"Un compromis préserve le commerce."},
+       {l:"Déployer des garde-côtes",fx:{treasuryPct:-0.06,secu:6,eco:-1},r:"Votre présence en mer dissuade."}]},
+ {id:'migrants',cat:'ext',w:2,cond:g=>true,title:"Arrivée de migrants",text:"Des embarcations accostent sur vos côtes. La question divise.",
+  opt:[{l:"Accueillir et intégrer",fx:{treasuryPct:-0.05,cohesion:-3,legit:2,eco:2},r:"Un pari humaniste, coûteux à court terme."},
+       {l:"Refouler",fx:{legit:-4,secu:2,cohesion:3},r:"Une partie de l'opinion approuve, l'autre condamne."}]},
+ {id:'techboom',cat:'eco',w:1,cond:g=>g.regime==='technocratie'||g.ind.eco>55,title:"Percée technologique",text:"Une jeune pousse insulaire attire l'attention internationale.",
+  opt:[{l:"Subventionner le secteur",fx:{treasuryPct:-0.06,eco:9,legit:2},r:"L'écosystème d'innovation décolle."},
+       {l:"Taxer ses profits",fx:{treasuryPct:0.05,eco:-2},r:"Recettes immédiates, croissance bridée."}]},
+ {id:'protest',cat:'pol',w:3,cond:g=>g.ind.legit<45,title:"Manifestations dans la capitale",text:"Des milliers de citoyens réclament des comptes au pouvoir.",
+  opt:[{l:"Ouvrir le dialogue",fx:{legit:6,cohesion:3,eco:-1},r:"L'écoute désamorce la colère."},
+       {l:"Interdire les rassemblements",fx:{legit:-8,secu:4,cohesion:-6},r:"Le calme de façade masque la rancœur."}]},
+ {id:'tourismrush',cat:'eco',w:2,cond:g=>g.econ==='tourisme'||g.region.sun>=4,title:"Saison touristique record",text:"Les visiteurs affluent, attirés par vos paysages.",
+  opt:[{l:"Développer les infrastructures",fx:{treasuryPct:-0.05,eco:6,env:-4},r:"Les capacités d'accueil grimpent."},
+       {l:"Instaurer une écotaxe",fx:{treasuryPct:0.06,env:3,eco:-1},r:"Moins de visiteurs, mais mieux encadrés."}]},
+ {id:'fishcollapse',cat:'env',w:2,cond:g=>g.ind.env<45,title:"Effondrement des stocks de poisson",text:"La surpêche vide vos eaux. Les pêcheurs s'inquiètent.",
+  opt:[{l:"Imposer des quotas",fx:{eco:-4,env:8,cohesion:-3},r:"Douloureux, mais les stocks se reconstituent."},
+       {l:"Ne rien changer",fx:{env:-6,eco:2},r:"On repousse le problème à plus tard."}]},
+ {id:'blackout',cat:'eco',w:2,cond:g=>g.spend.infra<2,title:"Panne électrique majeure",text:"Le réseau vieillissant lâche. Des régions entières sont plongées dans le noir.",
+  opt:[{l:"Grand plan d'investissement",fx:{treasuryPct:-0.14,eco:5,legit:3},r:"Le réseau modernisé tiendra des années."},
+       {l:"Réparation minimale",fx:{treasuryPct:-0.03,eco:-2,legit:-3},r:"Rustine posée, fragilité persistante."}]},
+ {id:'anthem',cat:'pol',w:1,cond:g=>g.turn>2,title:"Débat sur les symboles nationaux",text:"Une polémique enfle autour de l'identité et de l'hymne.",
+  opt:[{l:"Réaffirmer les traditions",fx:{cohesion:4,legit:1},r:"Le camp conservateur applaudit."},
+       {l:"Moderniser les symboles",fx:{cohesion:-2,legit:3},r:"La jeunesse se sent représentée."}]},
+ {id:'aid',cat:'ext',w:1,cond:g=>g.treasury<0,title:"Proposition d'aide internationale",text:"Une organisation offre un prêt à conditions strictes.",
+  opt:[{l:"Accepter le prêt",fx:{treasuryFlat:1,legit:-4,eco:2},r:"Les caisses respirent, la souveraineté moins."},
+       {l:"Refuser et se serrer la ceinture",fx:{cohesion:-4,legit:2},r:"Fierté nationale, austérité assumée."}]},
+ {id:'festival',cat:'social',w:2,cond:g=>g.treasury>g.pop*4,title:"Projet de grand festival national",text:"Le cabinet propose un événement culturel d'ampleur.",
+  opt:[{l:"Financer en grand",fx:{treasuryPct:-0.07,cohesion:7,legit:3},r:"La nation célèbre dans la joie."},
+       {l:"Version modeste",fx:{treasuryPct:-0.02,cohesion:2},r:"Sobre mais apprécié."}]},
+ {id:'army',cat:'ext',w:1,cond:g=>g.ind.secu<45,title:"Réforme de la défense",text:"L'état-major réclame des moyens face aux menaces extérieures.",
+  opt:[{l:"Réarmer",fx:{treasuryPct:-0.10,secu:8,legit:-1},r:"Vos frontières sont mieux gardées."},
+       {l:"Miser sur la diplomatie",fx:{secu:2,legit:3,eco:1},r:"Un pari sur les alliances plutôt que les armes."}]},
+ {id:'housing',cat:'social',w:2,cond:g=>g.pop>60000,title:"Crise du logement",text:"Les loyers explosent dans la capitale. Les jeunes ne peuvent plus se loger.",
+  opt:[{l:"Construire du logement public",fx:{treasuryPct:-0.10,cohesion:6,eco:2},r:"Les grues s'activent en périphérie."},
+       {l:"Laisser le marché s'ajuster",fx:{cohesion:-6,legit:-3},r:"La spéculation continue."}]},
+ {id:'referendum',cat:'pol',w:1,cond:g=>g.turn>8&&REGIME_RULES[g.regime].elective,title:"Appel à référendum",text:"L'opposition exige une consultation populaire sur votre politique.",
+  opt:[{l:"Organiser le référendum",fx:{legit:g=>g.ind.cohesion>50?6:-6,cohesion:2},r:"Le verdict des urnes tranche."},
+       {l:"Le refuser",fx:{legit:-5,secu:2},r:"L'opposition crie au déni de démocratie."}]}
+];
+// aléas climatiques régionaux (poids amplifié si environnement bas)
+const DISASTERS=[
+ {id:'storm',haz:/tempête|houle|submersion|vent/i,title:"Tempête dévastatrice",text:"Une tempête frappe le littoral, ravageant ports et habitations.",
+  opt:[{l:"Reconstruction d'urgence",fx:{treasuryPct:-0.12,cohesion:3,eco:-3},r:"On relève les décombres."},
+       {l:"Reconstruction a minima",fx:{treasuryPct:-0.03,cohesion:-6,eco:-2},r:"Les sinistrés se sentent abandonnés."}]},
+ {id:'drought',haz:/sécheresse|incendie/i,title:"Sécheresse et incendies",text:"La canicule assèche l'île ; des feux menacent les terres.",
+  opt:[{l:"Mobiliser les grands moyens",fx:{treasuryPct:-0.10,env:4,eco:-2},r:"Les flammes sont maîtrisées."},
+       {l:"Rationner l'eau",fx:{cohesion:-5,env:2},r:"Mesures impopulaires mais nécessaires."}]},
+ {id:'quake',haz:/séisme|volcan/i,title:"Séisme",text:"La terre tremble. Bâtiments fissurés, population sous le choc.",
+  opt:[{l:"Plan de secours massif",fx:{treasuryPct:-0.13,legit:4,cohesion:2},r:"L'État répond présent."},
+       {l:"Compter sur la solidarité",fx:{treasuryPct:-0.02,cohesion:-4,legit:-3},r:"L'aide s'organise dans le désordre."}]},
+ {id:'ice',haz:/glace/i,title:"Hiver de glace",text:"Le gel bloque les liaisons maritimes pendant des semaines.",
+  opt:[{l:"Ravitaillement aérien",fx:{treasuryPct:-0.08,cohesion:2,eco:-2},r:"L'île tient bon malgré l'isolement."},
+       {l:"Patienter",fx:{cohesion:-5,eco:-3},r:"Les pénuries mettent les nerfs à vif."}]}
+];
+
+function applyFx(g,fx){
+  const out=[];
+  for(const k in fx){
+    let v=fx[k]; if(typeof v==='function')v=v(g);
+    if(k==='treasuryPct'){const amt=Math.round(g.treasury>0?g.treasury*v:g.pop*8*v);g.treasury+=amt;}
+    else if(k==='treasuryFlat'){g.treasury+=Math.round(g.pop*8*v);}
+    else if(g.ind[k]!=null){g.ind[k]=clampI(g.ind[k]+v);}
+  }
+}
+function pickEvent(g,rng){
+  // aléa climatique ?
+  const envRisk=(60-g.ind.env)/100; // env bas => risque haut
+  const dis=DISASTERS.filter(d=>d.haz.test(g.region.hazard));
+  if(dis.length && rng()< (0.10+Math.max(0,envRisk)*0.28+Math.min(0.10,g.year*0.004))){
+    return dis[(rng()*dis.length)|0];
+  }
+  const pool=EVENTS.filter(e=>{try{return e.cond(g);}catch(_){return false;}});
+  // pondération : événement de crise plus probable si indicateur lié bas
+  const weighted=[];
+  for(const e of pool){let w=e.w||1;
+    if(e.cat==='pol'&&g.ind.legit<40)w+=3;
+    if(e.cat==='social'&&g.ind.cohesion<40)w+=3;
+    if(e.cat==='env'&&g.ind.env<40)w+=3;
+    if(g.flags.last===e.id)w=0.2;
+    for(let i=0;i<w*2;i++)weighted.push(e);
+  }
+  return weighted[(rng()*weighted.length)|0]||pool[0];
+}
+function resolveTurn(g){ // applique budget + fond, avance le temps
+  const rev=revenue(g), spe=spending(g);
+  g.treasury+=rev-spe;
+  const bg=background(g);
+  for(const k in bg)g.ind[k]=clampI(g.ind[k]+bg[k]);
+  g.deficitStreak = g.treasury<0 ? g.deficitStreak+1 : 0;
+  g.turn++; g.sinceElection++;
+  g.quarter++; if(g.quarter>4){g.quarter=1;g.year++;}
+  return {rev,spe,bg};
+}
+function checkEnd(g){
+  if(g.ind.legit<=0)return end(g,'renversement',"Le pouvoir s'effondre : "+REGIME_RULES[g.regime].tag+" est renversé faute de légitimité.");
+  if(g.ind.cohesion<=0)return end(g,'guerre civile',"La société se fracture : une guerre civile déchire l'île.");
+  if(g.ind.secu<=0)return end(g,'anarchie',"L'ordre public s'effondre ; l'État perd le contrôle du territoire.");
+  if(g.deficitStreak>=3)return end(g,'faillite',"Trois trimestres de déficit : l'île est mise sous tutelle financière.");
+  // élection
+  const R=REGIME_RULES[g.regime];
+  if(R.elective && g.sinceElection>=R.term){
+    g.sinceElection=0;
+    if(g.ind.legit<40){return end(g,'défaite électorale',"Les urnes vous sanctionnent : vous perdez le pouvoir aux élections.");}
+    g.flags.elecWon=(g.flags.elecWon||0)+1;
+    g.ind.legit=clampI(g.ind.legit+4);
+    g.log.unshift({t:g.year,turn:g.turn,txt:"✔ Réélu(e). Le mandat est renouvelé."});
+  }
+  return null;
+}
+function end(g,type,msg){
+  g.over=true;g.ending={type,msg};
+  const I=g.ind;
+  g.score=Math.round(g.year*10 + (I.eco+I.legit+I.cohesion+I.env+I.secu)/2 + Math.max(0,g.treasury)/(g.pop) + (g.flags.elecWon||0)*15);
+  return g.ending;
+}
+
+
+
+/* ============ UI SIMULATION (Module III) ============ */
+const SIM_META=[["eco","Économie","#2b6d6a"],["legit","Légitimité","#b23a30"],["cohesion","Cohésion sociale","#2f6fb0"],["env","Environnement","#2f6d4f"],["secu","Sécurité","#5b3a6e"]];
+const SPOSTS=[["social","Santé & éducation","cohésion"],["infra","Infrastructures","économie"],["secu","Sécurité & défense","sécurité"],["env","Environnement","écologie"]];
+const LVL=["Bas","Moyen","Élevé"];
+let G=null;
+function saveGame(){try{const c=Object.assign({},G);delete c.pending;localStorage.setItem('ile_game_v1',JSON.stringify(c));}catch(e){}}
+function money(n){return fmt(n)+" "+(STATE.currsym||"₮");}
+function evalTxt(v){return typeof v==='function'?v(G):v;}
+function startSim(){
+  const {eIdx,pop}=computeIndicators();
+  G=newGame(STATE,eIdx,pop,REGIONS[STATE.regionIdx]);
+  drawEvent();show('scrSim');renderSim();saveGame();
+}
+function drawEvent(){G.pending=pickEvent(G,Math.random);}
+function chooseOption(i){
+  const ev=G.pending,opt=ev.opt[i];
+  applyFx(G,opt.fx);G.flags.last=ev.id;
+  G.log.unshift({y:G.year,q:G.quarter,txt:evalTxt(ev.title)+" — "+opt.r});
+  if(G.log.length>24)G.log.pop();
+  resolveTurn(G);checkEnd(G);
+  if(G.over){renderSim();showEnd();saveGame();return;}
+  drawEvent();renderSim();saveGame();
+}
+function renderSim(){
+  $('simCountry').textContent=STATE.name||"—";
+  $('simDate').textContent="An "+G.year+" · Trimestre "+G.quarter;
+  const tr=$('simTreas');tr.textContent=money(G.treasury);tr.classList.toggle('neg',G.treasury<0);
+  $('simPop').textContent=fmt(G.pop)+" hab.";
+  const gg=$('simGauges');gg.innerHTML="";
+  SIM_META.forEach(([k,lbl,col])=>{const v=Math.round(G.ind[k]);gg.insertAdjacentHTML('beforeend','<div class="ind"><span class="il">'+lbl+'</span><div class="ib"><i style="width:'+v+'%;background:'+col+'"></i></div><span class="iv">'+v+'</span></div>');});
+  // budget
+  $('taxSlider').value=Math.round(G.tax*100);$('taxVal').textContent=Math.round(G.tax*100)+"%";
+  const sg=$('spendGrid');sg.innerHTML="";
+  SPOSTS.forEach(([key,lbl,eff])=>{
+    const lv=G.spend[key];
+    let btns="";for(let i=0;i<3;i++)btns+='<button class="'+(lv===i?'sel':'')+'" data-post="'+key+'" data-lv="'+i+'">'+LVL[i]+'</button>';
+    sg.insertAdjacentHTML('beforeend','<div class="spost"><div class="pn"><span>'+lbl+'</span><span>'+eff+'</span></div><div class="lvls">'+btns+'</div></div>');
+  });
+  sg.querySelectorAll('button').forEach(b=>b.onclick=()=>{G.spend[b.dataset.post]=+b.dataset.lv;renderSim();saveGame();});
+  const rev=revenue(G),spe=spending(G),bal=rev-spe;
+  $('proj').innerHTML='Recettes ~ '+money(rev)+' · Dépenses ~ '+money(spe)+' · Solde <b class="'+(bal>=0?'pos':'neg')+'">'+(bal>=0?'+':'')+money(bal)+'</b> / trim.';
+  // decision
+  const ev=G.pending;
+  $('decKicker').textContent=({eco:"Affaires économiques",social:"Affaires sociales",pol:"Affaires politiques",ext:"Affaires étrangères",env:"Environnement"})[ev.cat]||"Conseil des ministres";
+  $('decTitle').textContent=evalTxt(ev.title);
+  $('decText').textContent=evalTxt(ev.text);
+  const oc=$('decOpts');oc.innerHTML="";
+  ev.opt.forEach((o,i)=>{const b=document.createElement('button');b.textContent=o.l;b.onclick=()=>chooseOption(i);oc.appendChild(b);});
+  // log
+  const lg=$('simLog');lg.innerHTML="";
+  if(!G.log.length)lg.innerHTML='<div class="jitem">Le mandat commence…</div>';
+  G.log.forEach(e=>lg.insertAdjacentHTML('beforeend','<div class="jitem"><b>A'+e.y+'T'+e.q+'</b>'+e.txt+'</div>'));
+}
+$('taxSlider').addEventListener('input',e=>{G.tax=(+e.target.value)/100;$('taxVal').textContent=e.target.value+"%";const rev=revenue(G),spe=spending(G),bal=rev-spe;$('proj').innerHTML='Recettes ~ '+money(rev)+' · Dépenses ~ '+money(spe)+' · Solde <b class="'+(bal>=0?'pos':'neg')+'">'+(bal>=0?'+':'')+money(bal)+'</b> / trim.';});
+$('taxSlider').addEventListener('change',saveGame);
+function showEnd(){
+  const e=G.ending;
+  $('endKick').textContent=e.type;
+  $('endTitle').textContent=({renversement:"Le pouvoir renversé",'guerre civile':"Guerre civile",anarchie:"L'ordre effondré",faillite:"Faillite de l'État",'défaite électorale':"Battu aux urnes"})[e.type]||"Fin du mandat";
+  $('endMsg').textContent=e.msg;
+  $('endScore').innerHTML='Score final<b>'+G.score+'</b>An '+G.year+' · '+(STATE.name||"");
+  $('overlay').classList.add('show');
+}
+$('btnSimMenu').onclick=()=>{show('scrTerritory');};
+$('endNew').onclick=()=>{$('overlay').classList.remove('show');try{localStorage.removeItem('ile_game_v1');}catch(_){}
+  newIsland();show('scrTerritory');};
+$('endReplay').onclick=()=>{$('overlay').classList.remove('show');startSim();};
 
 /* ================= init ================= */
 function init(){
   try{const s=JSON.parse(localStorage.getItem('ile_nation_v2'));
-    if(s&&typeof s.seed==='number'){STATE=Object.assign(DEF(),s);renderTerrNames();buildIsland(STATE.seed,STATE.regionIdx);if(STATE.name)$('nameInput').value=STATE.name;[...$('chips').children].forEach(c=>c.classList.toggle('sel',c.textContent===STATE.name));return;}
+    if(s&&typeof s.seed==='number'){STATE=Object.assign(DEF(),s);renderTerrNames();buildIsland(STATE.seed,STATE.regionIdx);if(STATE.name)$('nameInput').value=STATE.name;[...$('chips').children].forEach(c=>c.classList.toggle('sel',c.textContent===STATE.name));
+      try{const gs=JSON.parse(localStorage.getItem('ile_game_v1'));if(gs&&gs.ind&&!gs.over){G=gs;if(!G.pending)drawEvent();show('scrSim');renderSim();}}catch(_){}
+      return;}
   }catch(e){}
   newIsland();
 }
