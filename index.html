@@ -539,12 +539,19 @@ button.ghost{background:transparent}
 
 <script>
 /* ================= version & diagnostic ================= */
-const APP_VERSION="6.0";
+const APP_VERSION="7.0";
+const SAVE_VERSION=7;
 (function(){
   function showErr(msg){
     var b=document.getElementById('errbar'); if(!b)return;
     b.style.display='block';
-    b.innerHTML='<b>Une erreur est survenue (version '+APP_VERSION+')</b>'+String(msg);
+    b.innerHTML='<b>Une erreur est survenue (version '+APP_VERSION+')</b>'+String(msg)+
+      '<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">'+
+      '<button id="errReset" style="font-size:12px;padding:6px 10px;background:#fff;color:#8c1d2c;border:0;border-radius:4px">Réinitialiser la partie</button>'+
+      '<button id="errClose" style="font-size:12px;padding:6px 10px;background:transparent;color:#fff;border:1px solid #fff;border-radius:4px">Fermer</button></div>';
+    var rb=document.getElementById('errReset'),cb=document.getElementById('errClose');
+    if(rb)rb.onclick=function(){try{localStorage.removeItem('ile_game_v1');}catch(_){}location.reload();};
+    if(cb)cb.onclick=function(){b.style.display='none';};
   }
   window.addEventListener('error',function(e){showErr((e.message||'')+' — '+(e.filename||'')+':'+(e.lineno||''));});
   window.addEventListener('unhandledrejection',function(e){showErr('Promesse rejetée : '+(e.reason&&e.reason.message||e.reason));});
@@ -1034,11 +1041,11 @@ function newGame(found,ind,pop,region){return{
   tax:0.20,spend:{social:1,infra:1,secu:1,env:1},
   pop,regime:found.regime,econ:found.econ,region,
   reforms:[],active:[],alerts:[],deficitStreak:0,sinceElection:0,
-  log:[],over:false,ending:null,flags:{},crisis:null,escalateQ:[]
+  log:[],over:false,ending:null,flags:{},crisis:null,escalateQ:[],sv:SAVE_VERSION
 };}
 const revenue=g=>Math.round(g.pop*REV_BASE*(g.ind.eco/50)*(g.tax/0.20));
 const spending=g=>Math.round(g.pop*SPEND_COEF*(g.spend.social+g.spend.infra+g.spend.secu+g.spend.env));
-function reformAgg(g){const a={eco:0,legit:0,cohesion:0,env:0,secu:0,tcap:0};for(const id of g.active){const o=REFORM_BY_ID[id].ongoing||{};for(const k in o)a[k]+=o[k];}return a;}
+function reformAgg(g){const a={eco:0,legit:0,cohesion:0,env:0,secu:0,tcap:0};for(const id of (g.active||[])){const d=REFORM_BY_ID[id];if(!d)continue;const o=d.ongoing||{};for(const k in o)a[k]+=o[k];}return a;}
 function background(g){
   const d={eco:0,legit:0,cohesion:0,env:0,secu:0},s=g.spend;
   d.cohesion+=(s.social-1)*3; d.legit+=(s.social-1)*1.5; d.eco+=(s.infra-1)*3; d.secu+=(s.secu-1)*3; d.env+=(s.env-1)*3;
@@ -1132,7 +1139,46 @@ const SEASONS=["Hiver","Printemps","Été","Automne"];
 let G=null,uiSpeed=2,playing=false,timer=null;
 function money(n){return fmt(n)+" "+(STATE.currsym||"₮");}
 function saveGame(){try{const c=Object.assign({},G);localStorage.setItem('ile_game_v1',JSON.stringify(c));}catch(e){}}
-function hasSavedGame(){try{const g=JSON.parse(localStorage.getItem('ile_game_v1'));return !!(g&&g.ind&&!g.over);}catch(_){return false;}}
+function hasSavedGame(){try{const g=JSON.parse(localStorage.getItem('ile_game_v1'));return !!(g&&g.ind&&typeof g.ind==='object'&&!g.over);}catch(_){return false;}}
+function normalizeGame(g){
+  if(!g||typeof g!=='object')return null;
+  if(!g.ind||typeof g.ind!=='object')return null;
+  const base={eco:50,legit:50,cohesion:50,env:50,secu:50};
+  g.ind=Object.assign({},base,g.ind);
+  for(const k in base){const v=Number(g.ind[k]);g.ind[k]=isFinite(v)?Math.max(0,Math.min(100,v)):50;}
+  if(!Array.isArray(g.reforms))g.reforms=[];
+  if(!Array.isArray(g.active))g.active=[];
+  if(!Array.isArray(g.alerts))g.alerts=[];
+  if(!Array.isArray(g.log))g.log=[];
+  if(!Array.isArray(g.escalateQ))g.escalateQ=[];
+  if(!g.flags||typeof g.flags!=='object')g.flags={};
+  if(!g.spend||typeof g.spend!=='object')g.spend={};
+  g.spend={social:+g.spend.social||0,infra:+g.spend.infra||0,secu:+g.spend.secu||0,env:+g.spend.env||0};
+  for(const k in g.spend)g.spend[k]=Math.max(0,Math.min(2,g.spend[k]));
+  g.pop=Number(g.pop)>0?Number(g.pop):50000;
+  g.tax=isFinite(g.tax)?Math.max(0.08,Math.min(0.40,g.tax)):0.20;
+  g.treasury=isFinite(g.treasury)?g.treasury:0;
+  g.turn=Number(g.turn)||0; g.year=Number(g.year)||1;
+  g.quarter=Math.min(4,Math.max(1,Number(g.quarter)||1));
+  g.deficitStreak=Number(g.deficitStreak)||0; g.sinceElection=Number(g.sinceElection)||0;
+  if(!g.regime||!REGIME_RULES[g.regime])g.regime='presidentiel';
+  if(!g.econ)g.econ='equilibree';
+  // la region doit exister et posseder ses champs (utilises par les conditions d'evenements)
+  const reg=REGIONS[STATE.regionIdx]||REGIONS[0];
+  if(!g.region||typeof g.region!=='object'||!g.region.neigh||!g.region.hazard)g.region=reg;
+  if(typeof g.region.sun!=='number')g.region.sun=reg.sun;
+  if(typeof g.region.wind!=='number')g.region.wind=reg.wind;
+  // ne garder que des reformes connues
+  g.active=g.active.filter(id=>REFORM_BY_ID[id]);
+  g.reforms=g.reforms.filter(r=>r&&REFORM_BY_ID[r.id]).map(r=>({id:r.id,remaining:Math.max(1,Number(r.remaining)||1)}));
+  // alertes : reconstruire depuis la banque, jeter l'inconnu
+  g.alerts=g.alerts.map(a=>{const def=a&&SIT_BY_ID[a.id];return def?Object.assign({ttl:Math.max(1,Number(a.ttl)||4)},def):null;}).filter(Boolean);
+  g.escalateQ=g.escalateQ.filter(id=>SIT_BY_ID[id]);
+  g.crisis=(g.crisis&&SIT_BY_ID[g.crisis.id])||null;
+  g.over=!!g.over;
+  g.sv=SAVE_VERSION;
+  return g;
+}
 function rehydrate(){if(!G)return;if(G.crisis&&G.crisis.id)G.crisis=SIT_BY_ID[G.crisis.id];if(G.alerts)G.alerts=G.alerts.map(a=>Object.assign({ttl:a.ttl},SIT_BY_ID[a.id]));}
 function evalT(v){return typeof v==='function'?v(G):v;}
 
@@ -1149,9 +1195,16 @@ function maybeIntro(){
   $('introOverlay').classList.add('show');
 }
 function autoStart(){ if(G&&!G.over&&!G.crisis&&!playing){playing=true;renderTime();scheduleTick();} }
-function resumeGame(){try{const g=JSON.parse(localStorage.getItem('ile_game_v1'));if(g&&g.ind&&!g.over){G=g;rehydrate();uiSpeed=2;playing=false;openTab('conseil');show('scrSim');renderSim();renderTime();
+function resumeGame(){
+  let g=null;
+  try{g=normalizeGame(JSON.parse(localStorage.getItem('ile_game_v1')));}catch(_){g=null;}
+  if(!g||g.over){toast("Sauvegarde illisible : commence une nouvelle partie.");try{localStorage.removeItem('ile_game_v1');}catch(_){}refreshHome();return false;}
+  G=g;uiSpeed=2;playing=false;openTab('conseil');show('scrSim');
+  try{renderSim();renderTime();}catch(e){
+    try{localStorage.removeItem('ile_game_v1');}catch(_){}
+    G=null;refreshHome();show('scrHome');toast("Sauvegarde incompatible, elle a été effacée.");return false;}
   if(G.crisis)openCrisis(); else autoStart();
-  return true;}}catch(_){}return false;}
+  return true;}
 
 /* ----- boucle temps ----- */
 function doStep(){
