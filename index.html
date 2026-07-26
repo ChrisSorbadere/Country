@@ -258,6 +258,15 @@ button.ghost{background:transparent}
 .endcard .score b{font-size:34px;display:block;color:var(--red);font-family:var(--serif)}
 .endbtns{display:flex;gap:10px}.endbtns button{flex:1;padding:12px}
 
+#errbar{display:none;position:fixed;top:0;left:0;right:0;z-index:99;background:#8c1d2c;color:#fff;
+ font-family:var(--mono);font-size:12px;padding:9px 12px;line-height:1.4;max-height:34vh;overflow:auto}
+#errbar b{display:block;margin-bottom:3px}
+.vbadge{font-family:var(--mono);font-size:11px;color:#7f8d9c;letter-spacing:.08em}
+.introcard{background:var(--shell2);border:1px solid var(--line);color:#dde6ef;border-radius:10px;max-width:430px;width:100%;padding:22px;max-height:88vh;overflow-y:auto}
+.introcard h3{margin:0 0 14px;font-family:var(--serif);font-size:22px;color:#fff}
+.introcard ul{margin:0 0 18px;padding-left:20px}
+.introcard li{font-size:14.5px;line-height:1.6;margin-bottom:10px;color:#d3dee9}
+.introcard li b{color:var(--gold)}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--paper);color:var(--ink);font-size:13.5px;padding:11px 18px;border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.25s;font-weight:500;max-width:82vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .navrow{display:flex;justify-content:space-between;gap:10px;margin:6px 0 8px}
@@ -269,6 +278,7 @@ button.ghost{background:transparent}
     <span class="brand">ATLAS<span class="dot">.</span></span>
     <span class="tag" id="phaseTag">Module I — Territoire</span>
     <span class="seedtag">Relevé n° <b id="seedLabel">—</b></span>
+    <span class="vbadge" id="verBadge"></span>
   </header>
 
   <!-- ============ SCREEN 1 : TERRITORY ============ -->
@@ -413,11 +423,14 @@ button.ghost{background:transparent}
     <div class="home">
       <div class="hbrand">ATLAS<span class="dot">.</span></div>
       <div class="htag">Fondation d'une île-nation</div>
+      <div class="htag" id="homeVer" style="margin-top:4px;color:#7f8d9c"></div>
       <div class="hcard">
         <div class="hsub" id="homeSub">—</div>
         <div class="hbtns">
           <button class="primary" id="btnResume">Reprendre la partie</button>
           <button id="btnNewGame">Nouvelle partie</button>
+          <button id="btnHowTo" class="ghost">Comment ça marche ?</button>
+          <button id="btnForceUpdate" class="ghost">Forcer la mise à jour</button>
         </div>
       </div>
     </div>
@@ -489,7 +502,23 @@ button.ghost{background:transparent}
     </div>
   </section>
 </div>
+<div id="errbar"></div>
 <div class="toast" id="toast"></div>
+
+<div class="overlay" id="introOverlay">
+  <div class="introcard">
+    <h3>Comment se joue Atlas</h3>
+    <ul>
+      <li><b>Le temps s'écoule tout seul.</b> Un trimestre passe automatiquement toutes les quelques secondes. La barre sous la date se remplit jusqu'au trimestre suivant.</li>
+      <li><b>Tu peux le mettre en pause</b> à tout moment, changer la vitesse (Lent / Normal / Rapide), ou avancer d'un seul trimestre avec « +1 trim. ».</li>
+      <li><b>Onglet Conseil :</b> l'état du pays, le bulletin du trimestre, et les <b>dossiers</b> à trancher. Ils n'obligent à rien — mais si tu les laisses expirer, tu en subis les conséquences.</li>
+      <li><b>Onglet Budget :</b> impôts et dépenses, modifiables à tout moment.</li>
+      <li><b>Onglet Réformes :</b> c'est toi qui décides d'en lancer. Elles coûtent cher et mettent du temps, mais transforment le pays.</li>
+      <li>Une <b>crise</b> majeure met le jeu en pause et exige une réponse immédiate.</li>
+    </ul>
+    <button class="primary" id="introOk" style="width:100%;padding:13px">Commencer à gouverner</button>
+  </div>
+</div>
 
 <div class="overlay" id="crisisOverlay">
   <div class="endcard">
@@ -509,6 +538,18 @@ button.ghost{background:transparent}
 
 
 <script>
+/* ================= version & diagnostic ================= */
+const APP_VERSION="6.0";
+(function(){
+  function showErr(msg){
+    var b=document.getElementById('errbar'); if(!b)return;
+    b.style.display='block';
+    b.innerHTML='<b>Une erreur est survenue (version '+APP_VERSION+')</b>'+String(msg);
+  }
+  window.addEventListener('error',function(e){showErr((e.message||'')+' — '+(e.filename||'')+':'+(e.lineno||''));});
+  window.addEventListener('unhandledrejection',function(e){showErr('Promesse rejetée : '+(e.reason&&e.reason.message||e.reason));});
+})();
+
 /* ================= PRNG & bruit ================= */
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function makeNoise(seed){
@@ -1047,7 +1088,7 @@ function rollSituation(g,rng){
     if(pool.length)return{type:'crisis',event:pool[(rng()*pool.length)|0]};
   }
   // alerte
-  if(rng()<0.62){
+  if(g.alerts.length<3 && rng()<0.62){
     const pool=ALERTS.filter(a=>{try{return(!a.cond||a.cond(g))&&!g.alerts.some(x=>x.id===a.id)&&g.flags.last!==a.id;}catch(_){return false;}});
     const weighted=[];for(const a of pool){let w=a.w||1;if(a.cat==='pol'&&g.ind.legit<40)w+=2;if(a.cat==='social'&&g.ind.cohesion<40)w+=2;if(a.cat==='env'&&g.ind.env<40)w+=2;for(let i=0;i<w;i++)weighted.push(a);}
     if(weighted.length)return{type:'alert',event:weighted[(rng()*weighted.length)|0]};
@@ -1101,9 +1142,15 @@ function startSim(){const r=computeIndicators();G=newGame(STATE,r.eIdx,r.pop,REG
   // première situation garantie dès le départ
   const first=ALERTS.filter(a=>{try{return !a.cond||a.cond(G);}catch(_){return false;}});
   if(first.length)G.alerts.push(Object.assign({ttl:4},first[(Math.random()*first.length)|0]));
-  openTab('conseil');show('scrSim');renderSim();renderTime();saveGame();}
+  openTab('conseil');show('scrSim');renderSim();renderTime();saveGame();maybeIntro();}
+function maybeIntro(){
+  let seen=false;try{seen=localStorage.getItem('ile_seen_intro')==='1';}catch(_){}
+  if(seen){autoStart();return;}
+  $('introOverlay').classList.add('show');
+}
+function autoStart(){ if(G&&!G.over&&!G.crisis&&!playing){playing=true;renderTime();scheduleTick();} }
 function resumeGame(){try{const g=JSON.parse(localStorage.getItem('ile_game_v1'));if(g&&g.ind&&!g.over){G=g;rehydrate();uiSpeed=2;playing=false;openTab('conseil');show('scrSim');renderSim();renderTime();
-  if(G.crisis)openCrisis();
+  if(G.crisis)openCrisis(); else autoStart();
   return true;}}catch(_){}return false;}
 
 /* ----- boucle temps ----- */
@@ -1227,9 +1274,19 @@ function showEnd(){const e=G.ending;$('endKick').textContent=e.type;
   $('overlay').classList.add('show');}
 
 /* ----- accueil ----- */
-function refreshHome(){const has=hasSavedGame();const rb=$('btnResume');rb.disabled=!has;rb.style.opacity=has?'1':'.4';
+function refreshHome(){$('verBadge').textContent="v"+APP_VERSION;$('homeVer').textContent="version "+APP_VERSION;
+  const has=hasSavedGame();const rb=$('btnResume');rb.disabled=!has;rb.style.opacity=has?'1':'.4';
   $('homeSub').textContent=has?("Une partie est en cours : "+(STATE.name||"votre nation")+".") : "Aucune partie en cours. Crée ton île et fonde ta nation.";}
 $('btnResume').onclick=()=>{if(hasSavedGame())resumeGame();};
+$('introOk').onclick=()=>{try{localStorage.setItem('ile_seen_intro','1');}catch(_){}
+  $('introOverlay').classList.remove('show');autoStart();};
+$('btnHowTo').onclick=()=>{$('introOverlay').classList.add('show');};
+$('btnForceUpdate').onclick=async()=>{
+  toast("Mise à jour en cours…");
+  try{ if('caches' in window){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));} }catch(_){}
+  try{ if(navigator.serviceWorker){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));} }catch(_){}
+  location.replace(location.pathname+'?maj='+Date.now());
+};
 $('btnNewGame').onclick=()=>{newIsland();show('scrTerritory');};
 $('btnHome').onclick=()=>{playing=false;clearTimeout(timer);refreshHome();show('scrHome');};
 $('btnPlay').onclick=togglePlay;$('btnStep').onclick=stepOnce;$('btnSpeed').onclick=cycleSpeed;
@@ -1248,7 +1305,17 @@ window.addEventListener('resize',()=>{if(CUR&&$('scrTerritory').classList.contai
 init();
 
 /* ================= PWA ================= */
-if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});}
+if('serviceWorker' in navigator){
+  let reloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading)return;reloading=true;location.reload();});
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      reg.addEventListener('updatefound',()=>{const nw=reg.installing;if(!nw)return;
+        nw.addEventListener('statechange',()=>{if(nw.state==='installed'&&navigator.serviceWorker.controller)nw.postMessage('SKIP_WAITING');});});
+      reg.update().catch(()=>{});
+    }).catch(()=>{});
+  });
+}
 </script>
 </body>
 </html>
